@@ -111,6 +111,7 @@ extension ViewController: CBPeripheralDelegate {
             }
             if characteristic.properties.contains(.notify) {
                 print("\(characteristic.uuid): properties contains .notify")
+                peripheral.setNotifyValue(true, for: characteristic)
             }
         }
     }
