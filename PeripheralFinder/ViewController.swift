@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     
     let batteryServiceCBUUID = CBUUID(string: "0x180F")
     let bloodPressureServiceCBUUID = CBUUID(string: "0x1810")
-    let otherServiceCBUUID = CBUUID(string: "0xFEE0")
+    let miBrand4ServiceCBUUID = CBUUID(string: "0xFEE0") // MI Brand 4
     
     
     override func viewDidLoad() {
@@ -47,28 +47,36 @@ extension ViewController: CBCentralManagerDelegate {
             print("central.state is .poweredOn")
             
 //            centralManager.scanForPeripherals(withServices: nil)
-            centralManager.scanForPeripherals(withServices: [batteryServiceCBUUID, bloodPressureServiceCBUUID, otherServiceCBUUID])
+            centralManager.scanForPeripherals(withServices: [batteryServiceCBUUID, bloodPressureServiceCBUUID, miBrand4ServiceCBUUID])
         }
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        
-        print("didDiscover: \(peripheral)!")
+        print("Discovered: \(peripheral)!")
         
         otherPeripheral = peripheral
+        otherPeripheral.delegate = self
+        
         centralManager.stopScan()
-        
         centralManager.connect(otherPeripheral)
-        
 //        print("advertisementData: \(advertisementData)!")
-        
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("didConnect \(peripheral)")
+        print("Connected \(peripheral)")
+        otherPeripheral.discoverServices(nil)
     }
-    
-    
-    
 }
 
+
+extension ViewController: CBPeripheralDelegate {
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        guard let services = peripheral.services else { return }
+        
+        for (index, service) in services.enumerated() {
+            print("Service #\(index): \(service)")
+        }
+    }
+    
+}
