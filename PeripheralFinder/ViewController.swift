@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     // Characteristics CBUUID
     let hearRateMeasurementCharCBUUID = CBUUID(string: "0x2A37") // Heart Rate Measurement
     let heartRateControlPointCharCBUUID = CBUUID(string: "0x2A39") // Heart Rate Control Point
+    let bodySensorLocationCharCBUUID = CBUUID(string: "2A38") // Body Senson Loacation
     
     
     override func viewDidLoad() {
@@ -100,6 +101,18 @@ extension ViewController: CBPeripheralDelegate {
         
         for (index, characteristic) in characteristics.enumerated() {
             print("Characteristic #\(index) of service \(service.uuid): \(characteristic)")
+        
+            if characteristic.properties.contains(.read) {
+                print("\(characteristic.uuid): properties contains .read")
+            }
+            if characteristic.properties.contains(.write) {
+                print("\(characteristic.uuid): properties container .write")
+            }
+            if characteristic.properties.contains(.notify) {
+                print("\(characteristic.uuid): properties contains .notify")
+            }
+            
+            
         }
     }
     
