@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     var centralManager: CBCentralManager!
     var miBrand4Peripheral: CBPeripheral!
     
+    // Services CBUUID
     let batteryServiceCBUUID = CBUUID(string: "0x180F") // Battery
     let bloodPressureServiceCBUUID = CBUUID(string: "0x1810") // Blood Presure
     let miBrand4ServiceCBUUID = CBUUID(string: "0xFEE0") // MI Brand 4
@@ -23,6 +24,11 @@ class ViewController: UIViewController {
     let userDataServiceCBUUID = CBUUID(string:"0x181C") // User Data
     let immediateAlertServiceCBUUID = CBUUID(string: "0x1802") // Immediate Alert
     let alertNotificationServiceCBUUID = CBUUID(string: "0x1811") // Alert Notification Service
+    
+    // Characteristics CBUUID
+    let hearRateMeasurementCharCBUUID = CBUUID(string: "0x2A37") // Heart Rate Measurement
+    let heartRateControlPointCharCBUUID = CBUUID(string: "0x2A39") // Heart Rate Control Point
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +77,8 @@ extension ViewController: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("Connected \(peripheral)")
 //        miBrand4Peripheral.discoverServices(nil)
-        miBrand4Peripheral.discoverServices([heartRateServiceCBUUID, deviceInfoServiceCBUUID ])
+//        miBrand4Peripheral.discoverServices([heartRateServiceCBUUID, deviceInfoServiceCBUUID ])
+        miBrand4Peripheral.discoverServices([heartRateServiceCBUUID])
         
     }
 }
@@ -84,6 +91,15 @@ extension ViewController: CBPeripheralDelegate {
         
         for (index, service) in services.enumerated() {
             print("Service #\(index): \(service)")
+            miBrand4Peripheral.discoverCharacteristics(nil, for: service)
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        guard let characteristics = service.characteristics else { return }
+        
+        for (index, characteristic) in characteristics.enumerated() {
+            print("Characteristic #\(index) of service \(service.uuid): \(characteristic)")
         }
     }
     
