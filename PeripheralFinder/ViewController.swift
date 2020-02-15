@@ -12,12 +12,12 @@ import CoreBluetooth
 class ViewController: UIViewController {
     
     var centralManager: CBCentralManager!
-    var miBrand4Peripheral: CBPeripheral!
+    var miBand4Peripheral: CBPeripheral!
     
     // Services CBUUID
     let batteryServiceCBUUID = CBUUID(string: "0x180F") // Battery
     let bloodPressureServiceCBUUID = CBUUID(string: "0x1810") // Blood Presure
-    let miBrand4ServiceCBUUID = CBUUID(string: "0xFEE0") // MI Brand 4
+    let miBand4ServiceCBUUID = CBUUID(string: "0xFEE0") // MI Band 4
     let heartRateServiceCBUUID = CBUUID(string: "0x180D") // Heart Rate
     let currentTimeServiceCBUUID = CBUUID(string: "0x1805") // Curret Time Service
     let deviceInfoServiceCBUUID = CBUUID(string: "0x180A") // Device Information
@@ -59,26 +59,26 @@ extension ViewController: CBCentralManagerDelegate {
             print("Bluetooth State is .poweredOn")
             
 //            centralManager.scanForPeripherals(withServices: nil)
-            centralManager.scanForPeripherals(withServices: [batteryServiceCBUUID, bloodPressureServiceCBUUID, miBrand4ServiceCBUUID])
+            centralManager.scanForPeripherals(withServices: [batteryServiceCBUUID, bloodPressureServiceCBUUID, miBand4ServiceCBUUID])
         }
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print("Discovered: \(peripheral)!")
         
-        miBrand4Peripheral = peripheral
-        miBrand4Peripheral.delegate = self
+        miBand4Peripheral = peripheral
+        miBand4Peripheral.delegate = self
         
         centralManager.stopScan()
-        centralManager.connect(miBrand4Peripheral)
+        centralManager.connect(miBand4Peripheral)
 //        print("advertisementData: \(advertisementData)!")
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("Connected \(peripheral)")
-//        miBrand4Peripheral.discoverServices(nil)
-//        miBrand4Peripheral.discoverServices([heartRateServiceCBUUID, deviceInfoServiceCBUUID ])
-        miBrand4Peripheral.discoverServices([heartRateServiceCBUUID])
+//        miBand4Peripheral.discoverServices(nil)
+//        miBand4Peripheral.discoverServices([heartRateServiceCBUUID, deviceInfoServiceCBUUID ])
+        miBand4Peripheral.discoverServices([heartRateServiceCBUUID])
         
     }
 }
@@ -90,8 +90,8 @@ extension ViewController: CBPeripheralDelegate {
         guard let services = peripheral.services else { return }
         
         for (index, service) in services.enumerated() {
-            print("Service #\(index): \(service)")
-            miBrand4Peripheral.discoverCharacteristics(nil, for: service)
+            print("Service #\(index) of peripheral \(peripheral.name ?? "Unknown"): \(service)")
+            miBand4Peripheral.discoverCharacteristics(nil, for: service)
         }
     }
     
