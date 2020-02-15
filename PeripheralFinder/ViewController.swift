@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     // Characteristics CBUUID
     let hearRateMeasurementCharCBUUID = CBUUID(string: "0x2A37") // Heart Rate Measurement
     let heartRateControlPointCharCBUUID = CBUUID(string: "0x2A39") // Heart Rate Control Point
-    let bodySensorLocationCharCBUUID = CBUUID(string: "2A38") // Body Senson Loacation
+    let bodySensorLocationCharCBUUID = CBUUID(string: "0x2A38") // Body Senson Loacation
     
     
     override func viewDidLoad() {
@@ -104,6 +104,7 @@ extension ViewController: CBPeripheralDelegate {
         
             if characteristic.properties.contains(.read) {
                 print("\(characteristic.uuid): properties contains .read")
+                peripheral.readValue(for: characteristic)
             }
             if characteristic.properties.contains(.write) {
                 print("\(characteristic.uuid): properties container .write")
@@ -111,8 +112,18 @@ extension ViewController: CBPeripheralDelegate {
             if characteristic.properties.contains(.notify) {
                 print("\(characteristic.uuid): properties contains .notify")
             }
-            
-            
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        print("diUpdateValueFor")
+        switch characteristic.uuid {
+        case bodySensorLocationCharCBUUID:
+            print(characteristic.value ?? "no value")
+        case heartRateControlPointCharCBUUID:
+            print(characteristic.value ?? "no value")
+        default:
+            print("Unhandled Chracteristics UUID \(characteristic.uuid)")
         }
     }
     
