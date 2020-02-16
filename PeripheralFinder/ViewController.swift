@@ -30,6 +30,8 @@ class ViewController: UIViewController {
     let heartRateControlPointCharCBUUID = CBUUID(string: "0x2A39") // Heart Rate Control Point
     let bodySensorLocationCharCBUUID = CBUUID(string: "0x2A38") // Body Senson Loacation
     
+    var peripheralList = Array<Peripheral>()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +39,7 @@ class ViewController: UIViewController {
         
         centralManager = CBCentralManager(delegate: self, queue: nil)
         
-        
+    
         
     }
 }
@@ -59,27 +61,31 @@ extension ViewController: CBCentralManagerDelegate {
         case .poweredOn:
             print("Bluetooth State is .poweredOn")
             
-//            centralManager.scanForPeripherals(withServices: nil)
-            centralManager.scanForPeripherals(withServices: [batteryServiceCBUUID, bloodPressureServiceCBUUID, miBand4ServiceCBUUID])
+            centralManager.scanForPeripherals(withServices: [miBand4ServiceCBUUID], options:  [CBCentralManagerScanOptionAllowDuplicatesKey : NSNumber(value: false)])
         }
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print("Discovered: \(peripheral)!")
+        print("RSSI: \(RSSI)")
+        
+        peripheralList.append(Peripheral(name: peripheral.name!, state: peripheral.state.rawValue, identifier: peripheral.identifier, rssi: Int(truncating: RSSI) ))
+        
+        print("count \(peripheralList.count)")
         
         miBand4Peripheral = peripheral
         miBand4Peripheral.delegate = self
         
-        centralManager.stopScan()
-        centralManager.connect(miBand4Peripheral)
+//        centralManager.stopScan()
+//        centralManager.connect(miBand4Peripheral)
 //        print("advertisementData: \(advertisementData)!")
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("Connected \(peripheral)")
-//        miBand4Peripheral.discoverServices(nil)
+        miBand4Peripheral.discoverServices(nil)
 //        miBand4Peripheral.discoverServices([heartRateServiceCBUUID, deviceInfoServiceCBUUID ])
-        miBand4Peripheral.discoverServices([heartRateServiceCBUUID])
+//        miBand4Peripheral.discoverServices([heartRateServiceCBUUID, batteryServiceCBUUID, deviceInfoServiceCBUUID])
         
     }
 }

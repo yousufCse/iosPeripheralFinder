@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB22560423F90D15006950B8 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB22560323F90D15006950B8 /* Peripheral.swift */; };
 		CB396CC123F7B2EF0042C3B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB396CC023F7B2EF0042C3B6 /* AppDelegate.swift */; };
 		CB396CC323F7B2EF0042C3B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB396CC223F7B2EF0042C3B6 /* ViewController.swift */; };
 		CB396CC623F7B2EF0042C3B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB396CC423F7B2EF0042C3B6 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB22560323F90D15006950B8 /* Peripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
 		CB396CBD23F7B2EF0042C3B6 /* PeripheralFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeripheralFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB396CC023F7B2EF0042C3B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB396CC223F7B2EF0042C3B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +37,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB22560223F90CD9006950B8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CB22560323F90D15006950B8 /* Peripheral.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CB396CB423F7B2EF0042C3B6 = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +64,7 @@
 		CB396CBF23F7B2EF0042C3B6 /* PeripheralFinder */ = {
 			isa = PBXGroup;
 			children = (
+				CB22560223F90CD9006950B8 /* Models */,
 				CB396CC023F7B2EF0042C3B6 /* AppDelegate.swift */,
 				CB396CC223F7B2EF0042C3B6 /* ViewController.swift */,
 				CB396CC423F7B2EF0042C3B6 /* Main.storyboard */,
@@ -136,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB396CC323F7B2EF0042C3B6 /* ViewController.swift in Sources */,
+				CB22560423F90D15006950B8 /* Peripheral.swift in Sources */,
 				CB396CC123F7B2EF0042C3B6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
